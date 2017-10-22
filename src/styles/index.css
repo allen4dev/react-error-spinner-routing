@@ -13,3 +13,27 @@ ul {
   padding: 0;
   list-style: none;
 }
+
+.App {
+  padding: 2em;
+}
+
+.Navigation {
+  display: flex;
+}
+
+.Navigation-item {
+  display: block;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+
+.Navigation-item--active {
+  color: hotpink;
+}
+
+.Posts,
+.Users,
+.Comments {
+  padding: 1em;
+}
