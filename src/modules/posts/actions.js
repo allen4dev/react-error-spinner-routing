@@ -17,6 +17,13 @@ export function requestPosts() {
   };
 }
 
+export function requestFail() {
+  return {
+    type: actionTypes.FETCH_POSTS_FAILURE,
+    payload: 'Something went wrong',
+  };
+}
+
 // Async actions
 
 export function fetchPosts() {
@@ -24,9 +31,15 @@ export function fetchPosts() {
     dispatch(requestPosts());
 
     const page = getState().posts.page;
-    const response = await api.posts.getPosts(page);
-    const posts = helpers.responseToObj(response);
+    let response;
 
+    try {
+      response = await api.posts.getPosts(page);
+    } catch (e) {
+      return dispatch(requestFail());
+    }
+
+    const posts = helpers.responseToObj(response);
     dispatch(setPosts(posts));
 
     return response;

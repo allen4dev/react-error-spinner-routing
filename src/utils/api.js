@@ -8,6 +8,10 @@ const api = {
       const response = await fetch(url);
       const posts = await response.json();
 
+      if (Math.random() > 0.5) {
+        throw new Error('Boom!');
+      }
+
       return posts;
     },
   },
