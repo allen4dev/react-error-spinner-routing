@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 
+import UserList from './../shared/UserList';
+
 class Users extends Component {
   render() {
     return (
       <div className="Users">
-        <span>Put here the Users</span>
+        <h1>Users</h1>
+        <UserList items={new Array(10).fill({})} />
       </div>
     );
   }

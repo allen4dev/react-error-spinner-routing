@@ -1,3 +1,3 @@
 import { NAME } from './constants';
 
-export const DUMMIE = `${NAME}/DUMMIE`;
+export const SET_POSTS = `${NAME}/SET_POSTS`;
