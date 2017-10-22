@@ -13,8 +13,10 @@ export function setPosts(posts) {
 
 // Async actions
 
-export function fetchPosts(page = 1) {
-  return async dispatch => {
+export function fetchPosts() {
+  return async (dispatch, getState) => {
+    const page = getState().posts.page;
+
     const response = await api.posts.getPosts(page);
     const posts = helpers.responseToObj(response);
 
