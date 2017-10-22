@@ -14,17 +14,25 @@ class Posts extends Component {
     }
   }
 
-  async fetchData() {
+  fetchData = async () => {
     const { fetchPosts } = this.props;
 
     await fetchPosts();
-  }
+  };
 
   render() {
     return (
       <div className="Posts">
         <h1>Posts</h1>
         <PostList items={this.props.items} />
+
+        {this.props.isFetching && <h1 className="Loading">Loading...</h1>}
+
+        <div className="Button">
+          <button className="btn" onClick={this.fetchData}>
+            Show more
+          </button>
+        </div>
       </div>
     );
   }
@@ -33,6 +41,7 @@ class Posts extends Component {
 function mapStateToProps(state) {
   return {
     items: Object.values(state.posts.entities),
+    isFetching: state.posts.fetching,
   };
 }
 

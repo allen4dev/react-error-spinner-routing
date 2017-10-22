@@ -14,6 +14,11 @@ ul {
   list-style: none;
 }
 
+.btn {
+  padding: 0.5em;
+  font-size: 1.2em;
+}
+
 .App {
   padding: 2em;
 }
@@ -30,6 +35,11 @@ ul {
 
 .Navigation-item--active {
   color: hotpink;
+}
+
+.Button {
+  text-align: center;
+  margin: 2em 0;
 }
 
 .Posts,

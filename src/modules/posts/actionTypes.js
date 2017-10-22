@@ -1,3 +1,4 @@
 import { NAME } from './constants';
 
-export const SET_POSTS = `${NAME}/SET_POSTS`;
+export const FETCH_POSTS_REQUEST = `${NAME}/FETCH_POSTS_REQUEST`;
+export const FETCH_POSTS_SUCCESS = `${NAME}/FETCH_POSTS_SUCCESS`;

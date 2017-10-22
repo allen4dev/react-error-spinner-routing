@@ -6,8 +6,14 @@ import helpers from './../../utils/helpers';
 // Action creators
 export function setPosts(posts) {
   return {
-    type: actionTypes.SET_POSTS,
+    type: actionTypes.FETCH_POSTS_SUCCESS,
     payload: posts,
+  };
+}
+
+export function requestPosts() {
+  return {
+    type: actionTypes.FETCH_POSTS_REQUEST,
   };
 }
 
@@ -15,8 +21,9 @@ export function setPosts(posts) {
 
 export function fetchPosts() {
   return async (dispatch, getState) => {
-    const page = getState().posts.page;
+    dispatch(requestPosts());
 
+    const page = getState().posts.page;
     const response = await api.posts.getPosts(page);
     const posts = helpers.responseToObj(response);
 
