@@ -48,11 +48,22 @@ ul {
   padding: 1em;
 }
 
-.Post {
+.Post,
+.User {
   border: 2px solid black;
   padding: 0 1em;
 }
 
-.Post:not(:last-child) {
+.User {
+  display: flex;
+  flex-direction: column;
+}
+
+.User span {
+  margin-bottom: 0.5em;
+}
+
+.Post:not(:last-child),
+.User:not(:last-child) {
   margin-bottom: 1em;
 }
