@@ -49,7 +49,8 @@ ul {
 }
 
 .Post,
-.User {
+.User,
+.Comment {
   border: 2px solid black;
   padding: 0 1em;
 }
@@ -64,6 +65,7 @@ ul {
 }
 
 .Post:not(:last-child),
-.User:not(:last-child) {
+.User:not(:last-child),
+.Comment:not(:last-child) {
   margin-bottom: 1em;
 }
