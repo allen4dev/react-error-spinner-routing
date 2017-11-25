@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { handleAction, handleActions } from 'redux-actions';
 
 import * as actionTypes from './actionTypes';
 
@@ -9,54 +10,47 @@ const INITIAL_STATE = {
   error: null,
 };
 
-function entitiesReducer(state = INITIAL_STATE.entities, action = {}) {
-  switch (action.type) {
-    case actionTypes.FETCH_POSTS_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
+const entitiesReducer = handleAction(
+  actionTypes.FETCH_POSTS_SUCCESS,
+  (state, action) => ({ ...state, ...action.payload }),
+  INITIAL_STATE.entities
+);
 
-    default:
-      return state;
-  }
-}
+const pageReducer = handleAction(
+  actionTypes.FETCH_POSTS_SUCCESS,
+  state => state + 1,
+  INITIAL_STATE.page
+);
 
-function pageReducer(state = INITIAL_STATE.page, action = {}) {
-  if (action.type === actionTypes.FETCH_POSTS_SUCCESS) {
-    return state + 1;
-  }
-
-  return state;
-}
-
-function fetchingReducer(state = INITIAL_STATE.fetching, action = {}) {
-  switch (action.type) {
-    case actionTypes.FETCH_POSTS_REQUEST:
+const fetchingReducer = handleActions(
+  {
+    REQUEST_RESOURCE: (state, action) => {
+      if (action.payload.filter !== 'posts') return state;
       return true;
-
-    case actionTypes.FETCH_POSTS_SUCCESS:
-    case actionTypes.FETCH_POSTS_FAILURE:
+    },
+    [actionTypes.FETCH_POSTS_SUCCESS]: (state, action) => false,
+    REQUEST_RESOURCE_FAIL: (state, action) => {
+      if (action.payload.filter !== 'posts') return state;
       return false;
+    },
+  },
+  INITIAL_STATE.fetching
+);
 
-    default:
-      return state;
-  }
-}
-
-function errorReducer(state = INITIAL_STATE.error, action = {}) {
-  switch (action.type) {
-    case actionTypes.FETCH_POSTS_FAILURE:
-      return action.payload;
-
-    case actionTypes.FETCH_POSTS_REQUEST:
-    case actionTypes.FETCH_POSTS_SUCCESS:
+const errorReducer = handleActions(
+  {
+    REQUEST_RESOURCE_FAIL: (state, action) => {
+      if (action.payload.filter !== 'posts') return state;
+      return action.payload.response.message;
+    },
+    REQUEST_RESOURCE: (state, action) => {
+      if (action.payload.filter !== 'posts') return state;
       return null;
-
-    default:
-      return state;
-  }
-}
+    },
+    [actionTypes.FETCH_POSTS_SUCCESS]: () => null,
+  },
+  INITIAL_STATE.error
+);
 
 const reducer = combineReducers({
   entities: entitiesReducer,
