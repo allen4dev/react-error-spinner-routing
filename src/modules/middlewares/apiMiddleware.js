@@ -1,7 +1,6 @@
 import helpers from './../../utils/helpers';
 
-const apiMiddleware = ({ dispatch, getstate }) => next => async action => {
-  console.log('ACTION', action);
+const apiMiddleware = ({ dispatch, getState }) => next => async action => {
   if (action.type !== 'API') return next(action);
 
   const { success } = action.payload;
@@ -10,9 +9,13 @@ const apiMiddleware = ({ dispatch, getstate }) => next => async action => {
   dispatch({ type: 'REQUEST_RESOURCE', payload: { filter } });
 
   let response = null;
-
+  const nextPage = getState()[filter].page;
   try {
-    response = await apiEndpoint();
+    if (nextPage) {
+      response = await apiEndpoint(nextPage);
+    } else {
+      response = await apiEndpoint();
+    }
     response = helpers.responseToObj(response);
   } catch (e) {
     response = new Error('Something goes wrong');
