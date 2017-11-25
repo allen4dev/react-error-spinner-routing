@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { handleAction, handleActions } from 'redux-actions';
 
 import * as actionTypes from './actionTypes';
 
@@ -7,31 +8,25 @@ const INITIAL_STATE = {
   fetching: false,
 };
 
-function entitiesReducer(state = INITIAL_STATE.entities, action = {}) {
-  switch (action.type) {
-    case actionTypes.FETCH_USERS_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
+const entitiesReducer = handleAction(
+  actionTypes.FETCH_USERS_SUCCESS,
+  (state, action) => ({
+    ...state,
+    ...action.payload,
+  }),
+  INITIAL_STATE.entities
+);
 
-    default:
-      return state;
-  }
-}
-
-function fetchingReducer(state = INITIAL_STATE.fetching, action = {}) {
-  switch (action.type) {
-    case actionTypes.FETCH_USERS_REQUEST:
+const fetchingReducer = handleActions(
+  {
+    REQUEST_RESOURCE: (state, action) => {
+      if (action.payload.filter !== 'users') return state;
       return true;
-
-    case actionTypes.FETCH_USERS_SUCCESS:
-      return false;
-
-    default:
-      return state;
-  }
-}
+    },
+    [actionTypes.FETCH_USERS_SUCCESS]: () => false,
+  },
+  INITIAL_STATE.fetching
+);
 
 const reducer = combineReducers({
   entities: entitiesReducer,

@@ -28,7 +28,7 @@ const fetchingReducer = handleActions(
       if (action.payload.filter !== 'posts') return state;
       return true;
     },
-    [actionTypes.FETCH_POSTS_SUCCESS]: (state, action) => false,
+    [actionTypes.FETCH_POSTS_SUCCESS]: () => false,
     REQUEST_RESOURCE_FAIL: (state, action) => {
       if (action.payload.filter !== 'posts') return state;
       return false;

@@ -1,33 +1,19 @@
+import { createAction } from 'redux-actions';
+
 import * as actionTypes from './actionTypes';
 
 import api from './../../utils/api';
-import helpers from './../../utils/helpers';
 
 // Action creators
-export function setUsers(users) {
-  return {
-    type: actionTypes.FETCH_USERS_SUCCESS,
-    payload: users,
-  };
-}
-
-export function requestUsers() {
-  return {
-    type: actionTypes.FETCH_USERS_REQUEST,
-  };
-}
+export const setUsers = createAction(actionTypes.FETCH_USERS_SUCCESS);
 
 // Async actions
 
-export function fetchUsers() {
-  return async dispatch => {
-    dispatch(requestUsers());
-
-    const response = await api.users.getUsers();
-    const users = helpers.responseToObj(response);
-
-    dispatch(setUsers(users));
-
-    return users;
-  };
-}
+export const fetchUsers = createAction(
+  'API',
+  () => ({ success: setUsers }),
+  () => ({
+    apiEndpoint: api.users.getUsers,
+    filter: 'users',
+  })
+);
